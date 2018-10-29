@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ hello }}</h2>
+    <table class="table" id="bigBangTable">
+        <caption>BigBangInfo
+            <span style="float:right;margin-right:200px;">
+                <a href="form"><span class="btn btn-success"  >add</span></a>
+                <span id="delInfo" class="btn btn-danger"  >del</span>
+                <a href="form"><span class="btn btn-primary"  >update</span></a>
+            </span>
+
+        </caption>
+
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>age</th>
+                <th>sex</th>
+                <th>score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for info in bigBangInfo %}
+            <tr>
+                <td>{{ info.name }}</td>
+                <td>{{ info.age }}</td>
+                <td>{{ info.sex }}</td>
+                {% if info.score > 95 %}
+                <td style="color:green;">{{ info.score }}</td>
+                {% elif info.score < 60 %}
+                <td style="color:red;">{{ info.score }}</td>
+                {% else %}
+                <td >{{ info.score }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+    $(function(){
+        $('#bigBangTable tbody').unbind('click').bind('click',function(event){
+
+            var _this=$(event.target);
+            var row = _this.closest('tr');
+            var data = row.children();
+            row.parent().find('tr').removeClass('actives');
+            row.addClass('actives');
+            $('#delInfo').unbind('click').bind('click',function(event){
+                if(confirm("Are you sure to del this info?")){
+                    $.ajax({
+                    url:'delInfo',
+                    type:'GET',
+                    data:{
+                        username:data.eq(0).text()
+                    },
+                    success:function(){
+                        row.remove();
+                        alert('del success');
+                    }
+                });
+                }
+
+            });
+        });
+
+
+    });
+</script>
+{% endblock %}
