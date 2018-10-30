@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if type == 'update' %}
+    <h3>更新信息</h3>
+    {% else %}
     <h3>添加信息</h3>
+    {% endif %}
     <form action="/addInfo" class="form-horizontal">
         <div class="form-group">
             <label class="col-sm-1 col-sm-offset-1">
                 name:
             </label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" name="username">
+                {% if type == 'add' %}
+                <input type="text" class="form-control" name="username" >
+                {% else %}
+                <input type="text" class="form-control" name="username" readonly>
+                {% endif %}
             </div>
-
         </div>
         <div class="form-group">
             <label class="col-sm-1 col-sm-offset-1">
@@ -51,8 +58,17 @@
 
     <script>
         $(function(){
-            var request =
-            if()
+            var bigBanginfo = {};
+            bigBanginfo.name='{{ nameInfo }}';
+            bigBanginfo.age='{{ age }}';
+            bigBanginfo.sex='{{ sex }}';
+            bigBanginfo.score='{{ score }}';
+            if(bigBanginfo){
+                $('[name="username"]').val(bigBanginfo.name);
+                $('[name="age"]').val(bigBanginfo.age);
+                $('[name="sex"]').val(bigBanginfo.sex);
+                $('[name="score"]').val(bigBanginfo.score);
+            }
         });
     </script>
 {% endblock %}

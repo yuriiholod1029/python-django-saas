@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{{ hello }}</h2>
+    <div style="height:50px;"></div>
+    <div id="successInfo" class="alert alert-success alert-dismissable" hidden>
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+            &times;
+        </button>
+        删除成功！
+    </div>
     <table class="table" id="bigBangTable">
         <caption>BigBangInfo
             <span style="float:right;margin-right:200px;">
                 <a href="form"><span class="btn btn-success"  >add</span></a>
                 <span id="delInfo" class="btn btn-danger"  >del</span>
-                <a href="form"><span class="btn btn-primary"  >update</span></a>
+                <span id="updateInfo" class="btn btn-primary"  >update</span>
             </span>
 
         </caption>
@@ -37,33 +44,58 @@
             {% endfor %}
         </tbody>
     </table>
+
+
     <script>
     $(function(){
         $('#bigBangTable tbody').unbind('click').bind('click',function(event){
-
             var _this=$(event.target);
             var row = _this.closest('tr');
             var data = row.children();
             row.parent().find('tr').removeClass('actives');
             row.addClass('actives');
+
             $('#delInfo').unbind('click').bind('click',function(event){
                 if(confirm("Are you sure to del this info?")){
                     $.ajax({
-                    url:'delInfo',
+                        url:'delInfo',
+                        type:'GET',
+                        data:{
+                            username:data.eq(0).text()
+                        },
+                        success:function(){
+                            $('#successInfo').slideDown();
+                            row.remove();
+                            setTimeout(function(){
+                                $('#successInfo').slideUp();
+                            },1000);
+                        }
+                    });
+                }
+            });
+
+            $('#updateInfo').unbind('click').bind('click',function(event){
+                $.ajax({
+                    url:'updateInfo',
                     type:'GET',
                     data:{
-                        username:data.eq(0).text()
+                        nameInfo:data.eq(0).text()
                     },
-                    success:function(){
-                        row.remove();
-                        alert('del success');
+                    success:function(res){
+                        window.location.href = 'form?nameInfo='+data.eq(0).text();
                     }
                 });
-                }
-
             });
+
         });
 
+        $('#delInfo').unbind('click').bind('click',function(event){
+            alert("请先选择要操作的记录");
+        });
+
+        $('#updateInfo').unbind('click').bind('click',function(event){
+            alert("请先选择要操作的记录");
+        });
 
     });
 </script>

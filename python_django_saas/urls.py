@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^hello$', view.hello),
     url(r'^form', view.form),
     url(r'^addInfo', view.addInfo),
-    url(r'^delInfo', view.delInfo)
+    url(r'^delInfo', view.delInfo),
+    url(r'^updateInfo', view.updateForm),
 ]
