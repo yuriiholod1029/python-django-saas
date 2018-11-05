@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div style="height:50px;"></div>
     <div id="successInfo" class="alert alert-success alert-dismissable" hidden>
         <button type="button" class="close" data-dismiss="alert"
                 aria-hidden="true">
@@ -48,6 +47,7 @@
 
     <script>
     $(function(){
+        $('#indexPage').addClass('actives');
         $('#bigBangTable tbody').unbind('click').bind('click',function(event){
             var _this=$(event.target);
             var row = _this.closest('tr');

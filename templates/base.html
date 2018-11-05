@@ -16,8 +16,25 @@
     </style>
 </head>
 <body>
-<a href="hello" style="text-decoration-line: none;"><span style="font-size:16px;color:blue;"><i class="glyphicon glyphicon-bitcoin"></i>  python-django saas</span></a>
-<span><a href="admin" class="link" target="_blank" style="float:right;margin-right:100px;text-decoration-line: none;">管理</a></span>
+<div class="navbar navbar-collapse" >
+    <span class="navbar-header col-md-3">
+        <a href="hello"  style="text-decoration-line: none;"><span style="font-size:20px;color:blue;"><i class="glyphicon glyphicon-bitcoin"></i>  python-django saas</span></a>
+    </span>
+    <span  class="collapse navbar-collapse col-md-offset-1">
+        <ul class="nav navbar-nav">
+            <li>
+                <a id="indexPage" href="hello">首页</a>
+            </li>
+            <li>
+                <a id="communicatePage" href="communicate">关系</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right"><a href="admin" class="link" target="_blank" style="float:right;margin-right:100px;text-decoration-line: none;">管理</a></ul>
+    </span>
+
+
+</div>
+
 {% block content %}
 {% endblock %}
 </body>

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from saas1.models import BigBang
 from django.http import HttpResponseRedirect
+from saas1 import grabData
 def hello(request):
     context = {}
     context['bigBangInfo'] = BigBang.objects.all()
@@ -39,3 +40,8 @@ def delInfo(request):
 
 def updateForm(request):
     return form(request)
+
+def communicate(request):
+    data = {}
+    data['webInfo'] = grabData.grabDataFromUrl("http://movie.douban.com/chart")
+    return render(request, 'communicate.html', data)

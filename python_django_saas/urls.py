@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^addInfo', view.addInfo),
     url(r'^delInfo', view.delInfo),
     url(r'^updateInfo', view.updateForm),
+    url(r'^communicate', view.communicate)
 ]
