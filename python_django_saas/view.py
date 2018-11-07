@@ -1,5 +1,6 @@
+# -*- coding: UTF-8 -*-
 from django.shortcuts import render
-from saas1.models import BigBang
+from saas1.models import BigBang,movieInfo, MessageBox
 from django.http import HttpResponseRedirect
 from saas1 import grabData
 def hello(request):
@@ -43,5 +44,33 @@ def updateForm(request):
 
 def communicate(request):
     data = {}
-    data['webInfo'] = grabData.grabDataFromUrl("http://movie.douban.com/chart")
+    #info = grabData.grabDataFromUrl("http://movie.douban.com/chart")
+    #data['webInfo'] = info.replace('\n', '\\n')
+    data['dbWebInfo'] = movieInfo.objects.all()
+    #print(type(info))
     return render(request, 'communicate.html', data)
+
+def msgForm(request):
+    title = request.GET['title']
+    movieContent = request.GET['contents']
+    print(title)
+    context={}
+    #movieInfos = movieInfo.objects.filter(title=title)
+    context['title'] = title
+    context['contentInfo'] = movieContent
+    return render(request, 'msgForm.html', context)
+
+def msgBox(request):
+    title = request.GET['title']
+    message = request.GET['message']
+    msgFrom = ''
+    msgTo = request.GET['msgTo']
+    time = ''
+    msg = MessageBox(title=title, content=message, msgFrom=msgFrom, msgTo=msgTo, time=time)
+    msg.save()
+    return HttpResponseRedirect('msgCenter')
+
+def msgCenter(request):
+    context = {}
+    context['msgInfo'] = MessageBox.objects.all()
+    return render(request, 'message.html', context)

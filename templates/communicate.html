@@ -1,16 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="btn btn-primary col-md-2 col-md-offset-2">
+    {% comment %}<div id="grabDataBtn" class="btn btn-primary col-md-1 col-md-offset-2 ">
         grabData
+    </div>{% endcomment %}
+    <div id="watchMovieMessage" class="btn btn-primary col-md-1 col-md-offset-2 ">
+        invite
     </div>
-    <div class="col-md-10 col-md-offset-2 ">
-        <textarea class="col-md-10" style="height:400px;">
-            {{ webInfo }}
-        </textarea>
-    </div>
+    <table class="table" id="movieInfo">
+        <caption><strong>movie info</strong></caption>
+        <thead>
+            <tr>
+                <th>title</th>
+                <th>content</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for info in dbWebInfo %}
+            <tr>
+                <td>{{ info.title }}</td>
+                <td>{{ info.content }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% comment %}<div class="col-md-10 col-md-offset-1 panel panel-primary">
+        <div id="urlData" class="col-md-10 panel-body" style="height:500px;overflow-y: auto;">
+
+        </div>
+    </div>{% endcomment %}
 
     <script>
         $('#communicatePage').addClass('actives');
+        {% comment %}$('#grabDataBtn').bind('click',function(){
+            var movieData = '{{ webInfo }}';
+            $('#urlData').text(movieData);
+        });{% endcomment %}
+        $('#movieInfo tbody').unbind('click').bind('click',function(evt){
+            var _this = $(evt.target);
+            var row = _this.closest('tr');
+            var data = row.children();
+            row.parent().find('tr').removeClass('actives');
+            row.addClass('actives');
+            $('#watchMovieMessage').unbind('click').bind('click',function(){
+                window.location.href = 'msgForm?title='+data.eq(0).text()+'&contents='+data.eq(1).text();
+            });
+        });
+
+        $('#watchMovieMessage').unbind('click').bind('click',function(){
+            alert("请选择一部影片!");
+        });
+
     </script>
 {% endblock %}

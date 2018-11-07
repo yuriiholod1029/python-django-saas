@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-8 ">
+        {% for msg in msgInfo %}
+        <ul class="alert alert-success">
+            <li><strong class="col-md-2">to:</strong>{{ msg.msgTo }}</li>
+            <li><strong class="col-md-2">title:</strong>{{ msg.title }}</li>
+            <li><strong class="col-md-2">content:</strong>{{ msg.content }}</li>
+        </ul>
+        {% endfor %}
+    </div>
+    <script>
+        $(function(){
+            $('#msgPage').addClass('actives');
+        })
+    </script>
+{% endblock %}
