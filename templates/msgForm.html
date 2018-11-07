@@ -27,7 +27,15 @@
                 留言:
             </label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" name="message">
+                <textarea type="text" class="form-control" name="message"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 col-sm-offset-1">
+                info:
+            </label>
+            <div class="col-sm-6" >
+                <textarea type="text" class="form-control"style="height:100px;" name="info" readonly>【{{ title }}】——{{ contentInfo }}</textarea>
             </div>
         </div>
 

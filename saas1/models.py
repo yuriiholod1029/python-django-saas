@@ -23,4 +23,4 @@ class MessageBox(models.Model):
     time = models.CharField(max_length=64)
 
     class Meta:
-        ordering = ['id']
+        ordering = ['-id']
