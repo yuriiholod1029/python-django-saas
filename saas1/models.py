@@ -17,6 +17,7 @@ class movieInfo(models.Model):
 class MessageBox(models.Model):
     title = models.CharField(max_length=64)
     content = models.CharField(max_length=255)
+    info = models.CharField(max_length=255)
     msgFrom = models.CharField(max_length=64)
     msgTo = models.CharField(max_length=64)
     time = models.CharField(max_length=64)

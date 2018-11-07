@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from saas1.models import BigBang,movieInfo, MessageBox
 from django.http import HttpResponseRedirect
-from saas1 import grabData
+from saas1 import grabData,utils
 def hello(request):
     context = {}
     context['bigBangInfo'] = BigBang.objects.all()
@@ -58,15 +58,17 @@ def msgForm(request):
     #movieInfos = movieInfo.objects.filter(title=title)
     context['title'] = title
     context['contentInfo'] = movieContent
+    context['friends'] = BigBang.objects.all()
     return render(request, 'msgForm.html', context)
 
 def msgBox(request):
     title = request.GET['title']
     message = request.GET['message']
+    info = request.GET['info']
     msgFrom = ''
     msgTo = request.GET['msgTo']
-    time = ''
-    msg = MessageBox(title=title, content=message, msgFrom=msgFrom, msgTo=msgTo, time=time)
+    time = utils.getNowTime()
+    msg = MessageBox(title=title, content=message, info=info, msgFrom=msgFrom, msgTo=msgTo, time=time)
     msg.save()
     return HttpResponseRedirect('msgCenter')
 

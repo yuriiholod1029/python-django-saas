@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action="msgBox" class="form-horizontal" enctype="multipart/form-data">
+    <form  class="form-horizontal" onsubmit="return false">
         <div class="form-group">
             <label class="col-sm-1 col-sm-offset-1">
                 发送给:
             </label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" name="msgTo" >
+                <select type="text" class="form-control" name="msgTo" >
+                    {% for friend in friends %}
+                        <option>{{ friend.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -31,7 +35,7 @@
         <div class="form-group">
             <div class="col-sm-6 col-sm-offset-2">
                 <span class="col-sm-2">
-                    <a style="text-decoration-line: none;"><input id="submit" type="submit" class="form-control"></a>
+                    <a style="text-decoration-line: none;"><button id="submit"  class="form-control">提交</button></a>
                 </span>
                 <span class="col-sm-2">
                     <a href="communicate" style="text-decoration-line: none;"><input type="button" class="form-control" value="return"></a>
@@ -43,18 +47,32 @@
     <script>
         $(function(){
             $('#communicatePage').addClass('actives');
-            var movieInfo = {};
-            {% comment %}movieInfo.title = '{{ title }}';
-            movieInfo.content = '{{ contents }}';{% endcomment %}
-            //console.log(movieInfo);
+            {% comment %}var movieInfo = {};
+            movieInfo.title = '{{ title }}';
+            movieInfo.content = '{{ contentInfo }}';
+            console.log('movieInfo:'+JSON.stringify(movieInfo));{% endcomment %}
             $('#submit').bind('click',function(){
                 var msgInfo = {};
                 var t = $('form').serializeArray();
                 $.each(t,function(){
                     msgInfo[this.name]=this.value;
                 });
+                msgInfo.info = '【{{ title }}】——{{ contentInfo }}';
                 console.log(msgInfo);
-                window.location.href='msgCenter';
+                $.ajax({
+                    url:'msgBox',
+                    type:'GET',
+                    data:{
+                        msgTo:msgInfo.msgTo,
+                        title:msgInfo.title,
+                        message:msgInfo.message,
+                        info:msgInfo.info
+                    },
+                    success:function(){
+                        window.location.href="msgCenter";
+                    }
+                });
+
             });
 
         })
